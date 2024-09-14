@@ -6,30 +6,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обновление кнопок избранного
     function updateFavoriteButtons() {
-        const favoriteButtons = document.querySelectorAll('.favorite-btn');
+        const favoriteButtons = document.querySelectorAll('.favorite-btn[data-video]');
         favoriteButtons.forEach(button => {
             const videoPath = button.getAttribute('data-video');
-            if (videoPath && favorites.includes(videoPath)) {
+            if (favorites.includes(videoPath)) {
                 button.classList.add('active');
+                button.innerHTML = 'Убрать из избранного';
             } else {
                 button.classList.remove('active');
+                button.innerHTML = '<i class="fas fa-star"></i> Добавить в избранное';
             }
         });
     }
 
     // Обработчик клика по кнопке избранного
     document.body.addEventListener('click', function (e) {
-        const favoriteBtn = e.target.closest('.favorite-btn');
+        const favoriteBtn = e.target.closest('.favorite-btn[data-video]');
         if (favoriteBtn) {
             const videoPath = favoriteBtn.getAttribute('data-video');
             if (!videoPath) return;
+
             if (favorites.includes(videoPath)) {
+                // Удаление из избранного
                 favorites = favorites.filter(fav => fav !== videoPath);
                 favoriteBtn.classList.remove('active');
+                favoriteBtn.innerHTML = '<i class="fas fa-star"></i> Добавить в избранное';
             } else {
+                // Добавление в избранное
                 favorites.push(videoPath);
                 favoriteBtn.classList.add('active');
+                favoriteBtn.innerHTML = 'Убрать из избранного';
             }
+
             localStorage.setItem('favorites', JSON.stringify(favorites));
             updateFavoritesList();
         }
