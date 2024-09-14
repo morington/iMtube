@@ -1,11 +1,10 @@
-from fastapi import FastAPI, Request, Response, Header, HTTPException, Path as FastAPIPath
-from fastapi.responses import HTMLResponse, FileResponse, StreamingResponse
+from fastapi import FastAPI, Request, Response, HTTPException, Path as FastAPIPath
+from fastapi.responses import HTMLResponse, FileResponse, StreamingResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 from typing import List
 from fastapi.templating import Jinja2Templates
 import ffmpeg
-import os
 import re
 from datetime import datetime
 import aiofiles
@@ -78,6 +77,12 @@ async def generate_video_thumbnail(account_name: str, video_name: str):
             logging.error(f"FFmpeg не найден: {e}")
             return "/static/images/video.png"
     return f"/videos/{account_name}/{thumbnail_name}"
+
+
+# Указываем favicon
+@app.get("/favicon.ico")
+async def favicon():
+    return RedirectResponse(url="/static/images/favicon.ico")
 
 
 @app.get("/", response_class=HTMLResponse)
