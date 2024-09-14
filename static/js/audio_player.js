@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Инициализируем Plyr с необходимыми контролами
-    const player = new Plyr('#audio-player', {
-        controls: [
-            'play',
-            'progress',
-            'current-time',
-            'mute',
-            'volume'
-        ]
-    });
-
     const audioPlayerContainer = document.getElementById('audio-player-container');
     const audioTitle = document.getElementById('audio-title');
+    const audioElement = document.getElementById('audio-player');
+
+    // Инициализация MediaElement.js
+    const player = new MediaElementPlayer(audioElement, {
+        features: ['playpause', 'progress', 'current', 'duration', 'volume'],
+        success: function(mediaElement, originalNode) {
+            // Дополнительные настройки при необходимости
+        }
+    });
 
     let currentTrackIndex = 0;
     let trackList = [];
@@ -29,17 +27,12 @@ document.addEventListener('DOMContentLoaded', function () {
         if (index < 0 || index >= trackList.length) return;
         currentTrackIndex = index;
         const track = trackList[index];
-        player.source = {
-            type: 'audio',
-            title: track.name.replace(/\.(mp3|wav|ogg)$/i, ''),
-            sources: [{
-                src: `/audio/${track.account}/${track.name}`,
-                type: 'audio/mpeg'
-            }]
-        };
+        const src = `/audio/${track.account}/${track.name}`;
+        player.setSrc(src);
+        player.load();
+        player.play();
         audioTitle.textContent = track.name.replace(/\.(mp3|wav|ogg)$/i, '');
         audioPlayerContainer.style.display = 'flex';
-        player.play();
 
         // Обновление активного трека
         document.querySelectorAll('.audio-item').forEach(item => item.classList.remove('active'));
@@ -65,8 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Обработка окончания трека
-    player.on('ended', () => {
-        // Автоматическое воспроизведение следующего трека
+    player.media.addEventListener('ended', () => {
         if (currentTrackIndex < trackList.length - 1) {
             playTrack(currentTrackIndex + 1);
         } else {

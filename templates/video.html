@@ -2,42 +2,31 @@
 {% block content %}
 <div class="d-flex justify-content-center">
     <div class="col-md-8">
-        <!-- Подключение Video.js CSS -->
-        <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-
-        <!-- Видео плеер с Video.js -->
+        <!-- Видео плеер с MediaElement.js -->
         <div class="mb-4 text-center">
             <video
                 id="my-video"
-                class="video-js vjs-default-skin vjs-big-play-centered"
+                class="mejs__player"
                 controls
                 preload="auto"
-                data-setup='{}'
             >
                 <source src="{{ url_for('stream_video', account_name=account, video_name=video) }}" type="video/mp4" />
                 Ваш браузер не поддерживает воспроизведение видео.
             </video>
         </div>
 
-        <!-- Подключение Video.js JS -->
-        <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-
         <!-- Настройка размеров плеера и скорости воспроизведения через JavaScript -->
         <script>
-            var player = videojs('my-video', {
-                fluid: true, // Делает плеер отзывчивым
-                controlBar: {
-                    playbackRateMenuButton: {
-                        labels: ['0.5x', '0.75x', '1x', '1.5x', '1.75x', '2x', '2.5x']
-                    }
-                }
-            });
-
-            // Останавливаем аудио при воспроизведении видео
-            player.on('play', function() {
-                const audioPlayer = document.getElementById('audio-player');
-                if (audioPlayer && !audioPlayer.paused) {
-                    audioPlayer.pause();
+            var player = new MediaElementPlayer('my-video', {
+                features: ['playpause','current','progress','duration','volume'],
+                success: function(mediaElement, originalNode) {
+                    // Останавливаем аудио при воспроизведении видео
+                    mediaElement.addEventListener('play', function() {
+                        const audioPlayer = document.getElementById('audio-player');
+                        if (audioPlayer && !audioPlayer.paused) {
+                            audioPlayer.pause();
+                        }
+                    });
                 }
             });
         </script>
