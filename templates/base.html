@@ -33,7 +33,7 @@
         </div>
         <div class="offcanvas-body">
             <ul class="list-group list-group-flush" id="favoritesList">
-                <!-- Избранные видео будут добавлены с помощью JavaScript -->
+                <!-- Избранные видео и аудио будут добавлены с помощью JavaScript -->
             </ul>
         </div>
     </div>
@@ -47,32 +47,10 @@
         <div class="audio-player d-flex flex-column">
             <span id="audio-title">Название трека</span>
             <!-- Plyr Audio Element -->
-            <audio id="audio-player" controls>
+            <audio id="audio-player">
                 <source src="" type="audio/mpeg" />
                 Ваш браузер не поддерживает воспроизведение аудио.
             </audio>
-            <!-- Дополнительные элементы управления -->
-            <div class="d-flex align-items-center mt-2">
-                <button id="audio-prev" class="btn btn-light btn-sm" title="Предыдущий">
-                    <i class="fas fa-step-backward"></i>
-                </button>
-                <button id="audio-play-pause" class="btn btn-light btn-sm" title="Воспроизвести/Пауза">
-                    <i class="fas fa-play"></i>
-                </button>
-                <button id="audio-next" class="btn btn-light btn-sm" title="Следующий">
-                    <i class="fas fa-step-forward"></i>
-                </button>
-                <button id="audio-repeat" class="btn btn-light btn-sm ms-2" title="Повтор">
-                    <i class="fas fa-repeat"></i>
-                </button>
-                <div class="ms-auto d-flex align-items-center">
-                    <i id="audio-volume-icon" class="fas fa-volume-up me-2" title="Громкость"></i>
-                    <input type="range" id="audio-volume" class="form-range" min="0" max="1" step="0.01" value="1">
-                    <button id="audio-close" class="btn btn-light btn-sm ms-2" title="Закрыть">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 

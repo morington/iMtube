@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const favoriteButtons = document.querySelectorAll('.favorite-btn');
         favoriteButtons.forEach(button => {
             const videoPath = button.getAttribute('data-video');
-            if (favorites.includes(videoPath)) {
+            if (videoPath && favorites.includes(videoPath)) {
                 button.classList.add('active');
             } else {
                 button.classList.remove('active');
@@ -19,16 +19,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Обработчик клика по кнопке избранного
     document.body.addEventListener('click', function (e) {
-        if (e.target.closest('.favorite-btn')) {
-            const button = e.target.closest('.favorite-btn');
-            const videoPath = button.getAttribute('data-video');
+        const favoriteBtn = e.target.closest('.favorite-btn');
+        if (favoriteBtn) {
+            const videoPath = favoriteBtn.getAttribute('data-video');
+            if (!videoPath) return;
             if (favorites.includes(videoPath)) {
                 favorites = favorites.filter(fav => fav !== videoPath);
+                favoriteBtn.classList.remove('active');
             } else {
                 favorites.push(videoPath);
+                favoriteBtn.classList.add('active');
             }
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            updateFavoriteButtons();
             updateFavoritesList();
         }
     });
@@ -48,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 listItem.className = 'list-group-item';
                 const link = document.createElement('a');
                 link.href = `/video/${account}/${video}`;
-                link.textContent = video.replace('.mp4', '').replace('.avi', '').replace('.mkv', '');
+                link.textContent = video.replace(/\.(mp4|avi|mkv)$/i, '');
                 link.className = 'text-dark';
                 listItem.appendChild(link);
                 favoritesList.appendChild(listItem);
