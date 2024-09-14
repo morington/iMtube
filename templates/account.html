@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="d-flex align-items-center mb-4">
+        <!-- Круглая иконка канала -->
+        <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-3" style="width: 50px; height: 50px; object-fit: cover;">
+        <h2 class="mb-0">{{ account }}</h2>
+        <span class="badge bg-secondary ms-2">{{ videos|length }}</span>
+    </div>
+    <div class="row">
+        {% for video in videos %}
+            <!-- Видео превью с полукруглыми углами, названия слева -->
+            <div class="col-md-4 mb-4">
+                <div>
+                    <a href="{{ url_for('play_video', account_name=account, video_name=video.name) }}">
+                        <img src="{{ video.thumbnail_url }}" alt="{{ video.name }}" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
+                    </a>
+                    <div class="d-flex align-items-center justify-content-between mt-2">
+                        <h5 class="text-start mb-0">{{ video.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h5>
+                        <!-- Кнопка избранного -->
+                        <button class="favorite-btn btn btn-danger btn-sm" data-video="{{ account }}/{{ video.name }}">
+                            <i class="fas fa-star"></i>
+                        </button>
+                    </div>
+                    <span class="badge text-muted">{{ account }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

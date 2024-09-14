@@ -1,0 +1,72 @@
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3, h5 {
+    font-weight: 700;
+}
+
+.navbar {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
+
+.navbar-brand img {
+    height: 30px;
+}
+
+.navbar-brand span {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 400px;
+}
+
+.rounded-circle {
+    border-radius: 50% !important;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.badge.text-muted {
+    font-size: 0.9rem;
+}
+
+.list-group-item {
+    padding: 0.5rem 1rem;
+}
+
+.list-group-item img {
+    object-fit: cover;
+}
+
+h5.mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.text-start {
+    text-align: left !important;
+}
+
+/* Стили для кнопки избранного */
+.favorite-btn {
+    border-radius: 5px;
+}
+
+.favorite-btn .fas.fa-star {
+    color: white;
+}
+
+.favorite-btn.active .fas.fa-star {
+    color: gold;
+}
+
+/* Стили для offcanvas */
+.offcanvas {
+    width: 250px;
+}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8">
+            <!-- Подключение Video.js CSS -->
+            <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+
+            <!-- Видео плеер с Video.js -->
+            <div class="mb-4">
+                <video
+                    id="my-video"
+                    class="video-js vjs-default-skin vjs-big-play-centered"
+                    controls
+                    preload="auto"
+                    data-setup='{}'
+                >
+                    <source src="{{ url_for('stream_video', account_name=account, video_name=video) }}" type="video/mp4" />
+                    Ваш браузер не поддерживает воспроизведение видео.
+                </video>
+            </div>
+
+            <!-- Подключение Video.js JS -->
+            <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+            <!-- Настройка размеров плеера через JavaScript -->
+            <script>
+                var player = videojs('my-video', {
+                    fluid: true, // Делает плеер отзывчивым
+                });
+            </script>
+
+            <!-- Название видео и кнопка избранного -->
+            <div class="d-flex align-items-center justify-content-between">
+                <h3>{{ video | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h3>
+                <!-- Кнопка избранного -->
+                <button class="favorite-btn btn btn-danger btn-sm" data-video="{{ account }}/{{ video }}">
+                    <i class="fas fa-star"></i>
+                </button>
+            </div>
+            <!-- Информация о канале и дате добавления -->
+            <p>Канал: <a href="{{ url_for('read_account', account_name=account) }}">{{ account }}</a></p>
+            <p>Добавлено: {{ video_added_date }}</p>
+        </div>
+        <div class="col-md-4">
+            <!-- Список других видео канала -->
+            <h5>Другие видео канала</h5>
+            <ul class="list-group list-group-flush">
+                {% for other_video in other_videos %}
+                <li class="list-group-item">
+                    <div class="d-flex align-items-center">
+                        <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}">
+                            <img src="{{ other_video.thumbnail_url }}" class="me-3" alt="{{ other_video.name }}" style="width: 80px; height: 45px; object-fit: cover; border-radius: 5px;">
+                        </a>
+                        <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}" class="text-dark">
+                            {{ other_video.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}
+                        </a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}

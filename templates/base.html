@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>iMtube</title>
+    <!-- Подключаем Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Подключаем Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <!-- Ваши стили -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/style.css') }}">
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-danger py-1">
+        <a class="navbar-brand d-flex align-items-center" href="{{ url_for('read_root') }}">
+            <img class="m-2 me-2" src="{{ url_for('static', path='/images/logo.png') }}" alt="iMtube" height="30">
+            <span class="ml-2 text-white">iMtube</span>
+        </a>
+        <!-- Кнопка для открытия избранного -->
+        <button class="btn btn-outline-light ml-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#favoritesOffcanvas" aria-controls="favoritesOffcanvas">
+            <i class="fas fa-star"></i> Избранное
+        </button>
+    </nav>
+
+    <!-- Offcanvas для избранного -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="favoritesOffcanvas" aria-labelledby="favoritesOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="favoritesOffcanvasLabel">Избранное</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-group list-group-flush" id="favoritesList"></ul>
+                <!-- Избранные видео будут добавлены с помощью JavaScript -->
+            </ul>
+        </div>
+    </div>
+
+    <main class="container mt-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Подключаем Bootstrap JS и зависимости -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Подключаем JavaScript для избранного -->
+    <script src="{{ url_for('static', path='/js/favorites.js') }}"></script>
+</body>
+</html>
