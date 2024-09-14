@@ -106,7 +106,6 @@ h5.mt-2 {
     width: 100%;
     background-color: var(--primary-color);
     color: #ffffff;
-    padding: 10px 20px;
     border-radius: 0;
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     display: flex;
@@ -116,48 +115,12 @@ h5.mt-2 {
 
 /* Название трека */
 .audio-player #audio-title {
-    font-weight: normal;
+    padding: 20px;
+    font-weight: bold;
     text-align: left;
     width: 100%;
-    margin-bottom: 10px;
-    font-size: 1rem;
-    color: #ffffff;
-}
-
-/* Plyr Audio Element */
-.audio-player audio {
-    width: 100%;
-    height: 40px;
-    margin-bottom: 10px;
-    background-color: var(--primary-color);
-    color: #ffffff;
-}
-
-/* Настройка внутренних контролов Plyr */
-.audio-player .plyr__controls {
-    width: calc(100% - 40px);
-    margin: 0 20px;
-}
-
-/* Изменение цвета элементов управления Plyr */
-.audio-player .plyr__controls button,
-.audio-player .plyr__controls input[type="range"] {
-    color: #ffffff;
-}
-
-/* Изменение цвета фона прогресс-бара */
-.audio-player .plyr__progress__bar {
-    background-color: #ffffff;
-}
-
-.audio-player .plyr__volume--display {
-    color: #ffffff;
-}
-
-/* Изменение цвета текста в Plyr */
-.plyr__controls__time--current,
-.plyr__controls__time--duration {
-    color: #ffffff;
+    font-size: 1.1rem;
+    color: var(--light-color);
 }
 
 /* Стилизация активного трека */
@@ -270,3 +233,72 @@ h5.mt-2 {
         margin-right: 0;
     }
 }
+
+/* Video player styles */
+.mejs__player {
+    width: 1080px; /* Задаем фиксированную ширину */
+    height: auto; /* Высота автоматически подстраивается */
+    display: block;
+    margin: 0 auto; /* Центрирование видео по горизонтали */
+}
+
+/* Audio player styles */
+.mejs__container {
+    width: 100% !important; /* Плеер растягивается на всю ширину контейнера */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 10px; /* Добавляем внутренние отступы */
+    box-sizing: border-box; /* Учет отступов */
+    background-color: var(--primary-color); /* Цвет фона плеера */
+    border: none;
+}
+
+/* Прогресс-бар и другие элементы управления MediaElement.js */
+.mejs__time-rail .mejs__time-total {
+    background-color: transparent; /* Фон прогресс-бара */
+    /*height: 10px;*/
+    /*border-radius: 5px;*/
+    /*border: none;*/
+}
+
+.mejs__time-rail .mejs__time-current {
+    background-color: var(--light-color); /* Красный цвет для текущего времени */
+    height: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+/* Цвет фона бара громкости */
+.mejs__horizontal-volume-total {
+    background-color: var(--primary-color); /* Цвет всего бара громкости */
+    border-radius: 5px; /* Закругленные углы */
+}
+
+/* Цвет текущего уровня громкости */
+.mejs__horizontal-volume-current {
+    background-color: var(--light-color); /* Цвет текущей громкости (можно поменять на любой) */
+    border-radius: 5px; /* Закругленные углы */
+    border: none;
+}
+
+.mejs__volume-button button {
+    background-color: transparent;
+    color: var(--light-color); /* Цвет кнопки громкости */
+}
+
+.mejs__playpause-button button {
+    background-color: transparent;
+    color: var(--light-color); /* Цвет кнопки воспроизведения/паузы */
+}
+
+.mejs__time-handle {
+    display: none; /* Скрываем ползунок времени */
+}
+
+.offcanvas-favorites {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    font-weight: bold;
+}
+
+
+

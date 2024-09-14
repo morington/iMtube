@@ -35,13 +35,13 @@ AUDIO_EXTENSIONS = ['.mp3', '.wav', '.ogg']
 
 # Валидация имени аккаунта и имени файла
 def validate_account_name(account_name: str):
-    if not re.match(r'^[a-zA-Z0-9 _\'-]+$', account_name):
+    if not re.match(r'^[\w\sа-яА-ЯёЁ _\'-]+$', account_name):
         logging.warning(f"Неверный формат имени аккаунта: {account_name}")
         raise HTTPException(status_code=400, detail="Неверный формат имени аккаунта")
 
 
 def validate_file_name(file_name: str, allowed_extensions: List[str]):
-    if not re.match(r'^[a-zA-Z0-9 _\'-]+\.(mp4|avi|mkv|mp3|wav|ogg)$', file_name.lower()):
+    if not re.match(r'^[\w\sа-яА-ЯёЁ _\'-]+\.(mp4|avi|mkv|mp3|wav|ogg)$', file_name.lower()):
         logging.warning(f"Неверный формат имени файла: {file_name}")
         raise HTTPException(status_code=400, detail="Неверный формат имени файла")
     if not any(file_name.lower().endswith(ext) for ext in allowed_extensions):
@@ -122,7 +122,7 @@ async def read_root(request: Request, query: str = None):
 
 
 @app.get("/account/{account_name}", response_class=HTMLResponse)
-async def read_account(request: Request, account_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+$")):
+async def read_account(request: Request, account_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+$")):
     validate_account_name(account_name)
     account_path = Path("videos") / account_name
     if not account_path.exists() or not account_path.is_dir():
@@ -149,8 +149,8 @@ async def read_account(request: Request, account_name: str = FastAPIPath(..., pa
 
 
 @app.get("/video/{account_name}/{video_name}", response_class=HTMLResponse)
-async def play_video(request: Request, account_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+$"),
-                     video_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+\.(mp4|avi|mkv)$")):
+async def play_video(request: Request, account_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+$"),
+                     video_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+\.(mp4|avi|mkv)$")):
     validate_account_name(account_name)
     validate_file_name(video_name, VIDEO_EXTENSIONS)
     video_path = Path("videos") / account_name / video_name
@@ -187,8 +187,8 @@ async def play_video(request: Request, account_name: str = FastAPIPath(..., patt
 
 
 @app.get("/stream/{account_name}/{video_name}")
-async def stream_video(request: Request, account_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+$"),
-                       video_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+\.(mp4|avi|mkv)$")):
+async def stream_video(request: Request, account_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+$"),
+                       video_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+\.(mp4|avi|mkv)$")):
     validate_account_name(account_name)
     validate_file_name(video_name, VIDEO_EXTENSIONS)
     video_path = Path("videos") / account_name / video_name
@@ -232,8 +232,8 @@ async def stream_video(request: Request, account_name: str = FastAPIPath(..., pa
 
 
 @app.get("/audio/{account_name}/{audio_name}")
-async def stream_audio(request: Request, account_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+$"),
-                       audio_name: str = FastAPIPath(..., pattern="^[a-zA-Z0-9 _\'-]+\.(mp3|wav|ogg)$")):
+async def stream_audio(request: Request, account_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+$"),
+                       audio_name: str = FastAPIPath(..., pattern="^[\w\sа-яА-ЯёЁ _\'-]+\.(mp3|wav|ogg)$")):
     validate_account_name(account_name)
     validate_file_name(audio_name, AUDIO_EXTENSIONS)
     audio_path = Path("videos") / account_name / audio_name

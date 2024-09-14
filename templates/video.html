@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="d-flex justify-content-center">
-    <div class="col-md-8">
+    <div class="col-md-10">
         <!-- Видео плеер с MediaElement.js -->
         <div class="mb-4 text-center">
             <video
@@ -27,6 +27,7 @@
                             audioPlayer.pause();
                         }
                     });
+                    mediaElement.setSize(1080, 'auto');
                 }
             });
         </script>
