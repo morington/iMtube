@@ -56,17 +56,240 @@ h5.mt-2 {
 /* Стили для кнопки избранного */
 .favorite-btn {
     border-radius: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #6c757d; /* Цвет иконки по умолчанию */
+    transition: color 0.3s;
 }
 
 .favorite-btn .fas.fa-star {
-    color: white;
+    color: inherit;
 }
 
 .favorite-btn.active .fas.fa-star {
     color: gold;
 }
 
+.favorite-btn:hover .fas.fa-star {
+    color: #dc3545;
+}
+
 /* Стили для offcanvas */
 .offcanvas {
     width: 250px;
+}
+
+/* Стили для аудиоплеера */
+.audio-player-container {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #f8f9fa;
+    border-top: 1px solid #ccc;
+    z-index: 1000;
+    display: none; /* Скрыт по умолчанию */
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.audio-player {
+    width: 100%;
+    max-width: 100%;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    height: 60px; /* Уменьшенная высота */
+}
+
+.audio-player #audio-title {
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-bottom: 5px;
+    font-size: 1rem;
+}
+
+.audio-player audio {
+    width: 100%;
+    height: 30px; /* Уменьшенная высота Plyr */
+}
+
+.audio-player .controls {
+    display: none; /* Скрываем дополнительные элементы управления */
+}
+
+.audio-player #audio-close {
+    align-self: flex-end;
+    color: #6c757d;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.audio-player #audio-close:hover {
+    color: #dc3545;
+}
+
+/* Стилизация кнопок Plyr */
+.plyr__controls__item {
+    color: #6c757d !important;
+}
+
+.plyr__control--overlaid {
+    background: none !important;
+}
+
+/* Стилизация списка аудио */
+.audio-list {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.audio-item {
+    background-color: #ffffff;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    height: 50px; /* Обеспечивает одинаковую высоту */
+}
+
+.audio-item .play-audio-btn {
+    flex-shrink: 0;
+    margin-right: 15px;
+    font-size: 1.5rem;
+    color: #dc3545;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.audio-item .play-audio-btn:hover {
+    color: #a71d2a;
+}
+
+.audio-item .audio-title {
+    flex-grow: 1;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 15px;
+}
+
+.audio-item a {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #6c757d;
+}
+
+.audio-item a img {
+    width: 20px;
+    height: 20px;
+    object-fit: cover;
+    margin-right: 5px;
+}
+
+.audio-item a span {
+    font-size: 0.9rem;
+}
+
+/* Отступ для контента, чтобы не перекрывался аудиоплеером */
+.content {
+    padding-bottom: 80px; /* Уменьшен для новой высоты плеера */
+}
+
+/* Стилизация кнопок Plyr */
+.plyr--audio .plyr__controls {
+    height: 40px; /* Уменьшаем высоту контролов */
+}
+
+.plyr--audio .plyr__controls button {
+    color: #6c757d !important; /* Цвет кнопок */
+}
+
+.plyr--audio .plyr__controls button:hover {
+    color: #dc3545 !important; /* Цвет кнопок при наведении */
+}
+
+.audio-player-container {
+    padding: 10px 0;
+}
+
+.audio-player {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.audio-player #audio-player {
+    width: 100%;
+    height: 40px; /* Уменьшенная высота */
+}
+
+.audio-player #audio-title {
+    font-size: 0.9rem;
+}
+
+/* Обеспечиваем, что Plyr занимает всю ширину контейнера */
+.audio-player audio {
+    width: 100%;
+    height: 40px;
+}
+
+/* Скрываем ненужные элементы */
+.audio-player .controls {
+    display: none;
+}
+
+/* Исправление стилей блока "Аудио" в канале */
+.audio-list .audio-item button.play-audio-btn {
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.audio-list .audio-item button.play-audio-btn .fa-play-circle {
+    font-size: 1.2rem;
+    color: #dc3545;
+    transition: color 0.3s;
+}
+
+.audio-list .audio-item button.play-audio-btn:hover .fa-play-circle {
+    color: #a71d2a;
+}
+
+/* Исправление видимости кнопки "Добавить в избранное" */
+.favorite-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #6c757d;
+    transition: color 0.3s;
+}
+
+.favorite-btn .fas.fa-star {
+    color: inherit;
+}
+
+.favorite-btn.active .fas.fa-star {
+    color: gold;
+}
+
+.favorite-btn:hover .fas.fa-star {
+    color: #dc3545;
 }

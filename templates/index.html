@@ -1,50 +1,87 @@
 {% extends "base.html" %}
 {% block content %}
-    <!-- Заголовок -->
-    <div class="text-center mb-4">
-        <h1>Добро пожаловать в <strong>iMtube</strong></h1>
-    </div>
+<!-- Заголовок -->
+<div class="text-center mb-4">
+    <h1>Добро пожаловать в <strong>iMtube</strong></h1>
+</div>
 
-    <!-- Форма поиска -->
-    <form method="get" action="/" class="d-flex justify-content-center mb-4">
-        <input type="text" name="query" class="form-control me-2" placeholder="Поиск видео или каналов" value="{{ query or '' }}">
-        <button type="submit" class="btn btn-danger">Искать</button>
-    </form>
+<!-- Форма поиска -->
+<form method="get" action="/" class="d-flex justify-content-center mb-4">
+    <input type="text" name="query" class="form-control me-2" placeholder="Поиск видео или каналов" value="{{ query or '' }}">
+    <button type="submit" class="btn btn-danger">Искать</button>
+</form>
 
-    <!-- Отображение результатов -->
-    {% if results %}
+<!-- Отображение результатов -->
+{% if results.accounts or results.videos or results.audios %}
+    {% if query %}
+        {% if results.accounts %}
+        <!-- Результаты аккаунтов -->
+        <h3>Каналы</h3>
+        {% endif %}
+    {% endif %}
     <div class="row">
-        {% for item in results %}
-            {% if item.type == 'account' %}
-                <!-- Круглая иконка канала с количеством видео -->
-                <div class="col-md-3 mb-4 text-center">
-                    <a href="{{ url_for('read_account', account_name=item.name) }}" class="text-decoration-none text-dark">
-                        <img src="{{ item.logo_url }}" alt="{{ item.name }}" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
-                        <h5>{{ item.name }}</h5>
-                        <span class="badge bg-secondary">{{ item.video_count }}</span>
-                    </a>
-                </div>
-            {% elif item.type == 'video' %}
-                <!-- Карточка видео -->
-                <div class="col-md-3 mb-4">
-                    <div>
-                        <a href="{{ url_for('play_video', account_name=item.account, video_name=item.name) }}">
-                            <img src="{{ item.thumbnail_url }}" alt="{{ item.name }}" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
-                        </a>
-                        <div class="d-flex align-items-center justify-content-between mt-2">
-                            <h5 class="text-start mb-0">{{ item.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h5>
-                            <!-- Кнопка избранного -->
-                            <button class="favorite-btn btn btn-danger btn-sm" data-video="{{ item.account }}/{{ item.name }}">
-                                <i class="fas fa-star"></i>
-                            </button>
-                        </div>
-                        <span class="badge text-muted">{{ item.account }}</span>
-                    </div>
-                </div>
-            {% endif %}
+        {% for item in results.accounts %}
+        <div class="col-md-3 mb-4 text-center">
+            <a href="{{ url_for('read_account', account_name=item.name) }}" class="text-decoration-none text-dark">
+                <img src="{{ item.logo_url }}" alt="{{ item.name }}" class="rounded-circle mb-2" style="width: 100px; height: 100px; object-fit: cover;">
+                <h5>{{ item.name }}</h5>
+                <span class="badge bg-secondary">{{ item.video_count }}</span>
+                <span class="badge bg-primary">{{ item.audio_count }}</span>
+            </a>
+        </div>
         {% endfor %}
     </div>
-    {% else %}
-        <p class="text-center">Ничего не найдено по вашему запросу.</p>
+    {% if results.videos %}
+    <!-- Результаты видео -->
+    {% if query %}
+    <h3>Видео</h3>
     {% endif %}
+    <div class="row">
+        {% for item in results.videos %}
+        <div class="col-md-3 mb-4">
+            <div>
+                <a href="{{ url_for('play_video', account_name=item.account, video_name=item.name) }}">
+                    <img src="{{ item.thumbnail_url }}" alt="{{ item.name }}" style="width: 100%; height: auto; object-fit: cover; border-radius: 10px;">
+                </a>
+                <div class="d-flex align-items-center justify-content-between mt-2">
+                    <h5 class="text-start mb-0">{{ item.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h5>
+                    <!-- Кнопка избранного -->
+                    <button class="favorite-btn btn btn-danger btn-sm" data-video="{{ item.account }}/{{ item.name }}">
+                        <i class="fas fa-star"></i>
+                    </button>
+                </div>
+                <div class="d-flex align-items-center text-muted mt-1">
+                    <img src="{{ item.logo_url }}" alt="{{ item.account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
+                    <span>{{ item.account }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% if results.audios %}
+    <!-- Результаты аудио -->
+    {% if query %}
+    <h3>Аудио</h3>
+    {% endif %}
+    <div class="audio-list mb-4">
+        {% for item in results.audios %}
+        <div class="audio-item d-flex align-items-center mb-2">
+            <button class="play-audio-btn me-3" data-account="{{ item.account }}" data-name="{{ item.name }}">
+                <i class="fas fa-play-circle"></i>
+            </button>
+            <div class="audio-title text-truncate me-3">{{ item.name | replace('.mp3', '') | replace('.wav', '') | replace('.ogg', '') }}</div>
+            <a href="{{ url_for('read_account', account_name=item.account) }}" class="d-flex align-items-center text-muted">
+                <img src="{{ item.logo_url }}" alt="{{ item.account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
+                <span>{{ item.account }}</span>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% else %}
+    <p class="text-center">Ничего не найдено по вашему запросу.</p>
+{% endif %}
 {% endblock %}
+

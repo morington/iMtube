@@ -1,63 +1,99 @@
 {% extends "base.html" %}
 {% block content %}
-    <div class="row">
-        <div class="col-md-8">
-            <!-- Подключение Video.js CSS -->
-            <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+<div class="d-flex justify-content-center">
+    <div class="col-md-8">
+        <!-- Подключение Video.js CSS -->
+        <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
 
-            <!-- Видео плеер с Video.js -->
-            <div class="mb-4">
-                <video
-                    id="my-video"
-                    class="video-js vjs-default-skin vjs-big-play-centered"
-                    controls
-                    preload="auto"
-                    data-setup='{}'
-                >
-                    <source src="{{ url_for('stream_video', account_name=account, video_name=video) }}" type="video/mp4" />
-                    Ваш браузер не поддерживает воспроизведение видео.
-                </video>
+        <!-- Видео плеер с Video.js -->
+        <div class="mb-4 text-center">
+            <video
+                id="my-video"
+                class="video-js vjs-default-skin vjs-big-play-centered"
+                controls
+                preload="auto"
+                data-setup='{}'
+            >
+                <source src="{{ url_for('stream_video', account_name=account, video_name=video) }}" type="video/mp4" />
+                Ваш браузер не поддерживает воспроизведение видео.
+            </video>
+        </div>
+
+        <!-- Подключение Video.js JS -->
+        <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+        <!-- Настройка размеров плеера и скорости воспроизведения через JavaScript -->
+        <script>
+            var player = videojs('my-video', {
+                fluid: true, // Делает плеер отзывчивым
+                controlBar: {
+                    playbackRateMenuButton: {
+                        labels: ['0.5x', '0.75x', '1x', '1.5x', '1.75x', '2x', '2.5x']
+                    }
+                }
+            });
+        </script>
+
+        <!-- Информация о видео -->
+        <div class="video-info mb-4 text-start">
+            <h3>{{ video | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h3>
+            <div class="d-flex align-items-center text-muted">
+                <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
+                <a href="{{ url_for('read_account', account_name=account) }}" class="text-decoration-none text-dark fw-bold me-2">{{ account }}</a>
+                <span class="badge bg-secondary">{{ video_added_date }}</span>
             </div>
+        </div>
 
-            <!-- Подключение Video.js JS -->
-            <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+        <!-- Кнопка избранного -->
+        <div class="mb-4">
+            <button class="favorite-btn btn btn-danger" data-video="{{ account }}/{{ video }}">
+                <i class="fas fa-star"></i> Добавить в избранное
+            </button>
+        </div>
 
-            <!-- Настройка размеров плеера через JavaScript -->
-            <script>
-                var player = videojs('my-video', {
-                    fluid: true, // Делает плеер отзывчивым
-                });
-            </script>
+        <!-- Другие видео с канала -->
+        <h5>Другие видео с канала</h5>
+        <div class="video-list">
+            {% for other_video in other_videos %}
+            <div class="video-item d-flex align-items-center mb-2">
+                <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}" class="me-3">
+                    <img src="{{ other_video.thumbnail_url }}" alt="{{ other_video.name }}" style="width: 80px; height: 45px; object-fit: cover; border-radius: 5px;">
+                </a>
+                <div class="video-title">
+                    <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}" class="text-dark">
+                        {{ other_video.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
-            <!-- Название видео и кнопка избранного -->
-            <div class="d-flex align-items-center justify-content-between">
-                <h3>{{ video | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}</h3>
-                <!-- Кнопка избранного -->
-                <button class="favorite-btn btn btn-danger btn-sm" data-video="{{ account }}/{{ video }}">
-                    <i class="fas fa-star"></i>
+        <!-- Другие аудио с канала -->
+        {% if other_audios %}
+        <h5 class="mt-4">Другие аудио с канала</h5>
+        <div class="audio-list">
+            {% for audio in other_audios %}
+            <div class="audio-item d-flex align-items-center">
+                <button class="play-audio-btn me-3" data-account="{{ account }}" data-name="{{ audio.name }}">
+                    <i class="fas fa-play-circle"></i>
                 </button>
+                <div class="audio-title text-truncate me-3">{{ audio.name | replace('.mp3', '') | replace('.wav', '') | replace('.ogg', '') }}</div>
+                <a href="{{ url_for('read_account', account_name=account) }}" class="d-flex align-items-center text-muted">
+                    <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
+                    <span>{{ account }}</span>
+                </a>
             </div>
-            <!-- Информация о канале и дате добавления -->
-            <p>Канал: <a href="{{ url_for('read_account', account_name=account) }}">{{ account }}</a></p>
-            <p>Добавлено: {{ video_added_date }}</p>
+            {% endfor %}
         </div>
-        <div class="col-md-4">
-            <!-- Список других видео канала -->
-            <h5>Другие видео канала</h5>
-            <ul class="list-group list-group-flush">
-                {% for other_video in other_videos %}
-                <li class="list-group-item">
-                    <div class="d-flex align-items-center">
-                        <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}">
-                            <img src="{{ other_video.thumbnail_url }}" class="me-3" alt="{{ other_video.name }}" style="width: 80px; height: 45px; object-fit: cover; border-radius: 5px;">
-                        </a>
-                        <a href="{{ url_for('play_video', account_name=account, video_name=other_video.name) }}" class="text-dark">
-                            {{ other_video.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}
-                        </a>
-                    </div>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
+        {% endif %}
     </div>
+</div>
+
+<!-- Скрипт для остановки аудио при воспроизведении видео -->
+<script>
+    // Останавливаем аудио при загрузке страницы
+    if (window.audio && !window.audio.paused) {
+        window.audio.pause();
+    }
+</script>
 {% endblock %}
