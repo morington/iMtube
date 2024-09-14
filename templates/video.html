@@ -32,6 +32,14 @@
                     }
                 }
             });
+
+            // Останавливаем аудио при воспроизведении видео
+            player.on('play', function() {
+                const audioPlayer = document.getElementById('audio-player');
+                if (audioPlayer && !audioPlayer.paused) {
+                    audioPlayer.pause();
+                }
+            });
         </script>
 
         <!-- Информация о видео -->
@@ -82,6 +90,7 @@
                     <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
                     <span>{{ account }}</span>
                 </a>
+                <!-- Кнопка добавления в избранное для аудио удалена -->
             </div>
             {% endfor %}
         </div>
@@ -91,9 +100,12 @@
 
 <!-- Скрипт для остановки аудио при воспроизведении видео -->
 <script>
-    // Останавливаем аудио при загрузке страницы
-    if (window.audio && !window.audio.paused) {
-        window.audio.pause();
-    }
+    // Останавливаем аудио при загрузке страницы, если воспроизводится
+    document.addEventListener('DOMContentLoaded', function () {
+        const audioPlayer = document.getElementById('audio-player');
+        if (audioPlayer && !audioPlayer.paused) {
+            audioPlayer.pause();
+        }
+    });
 </script>
 {% endblock %}

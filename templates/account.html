@@ -4,8 +4,6 @@
     <!-- Круглая иконка канала -->
     <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 50px; height: 50px; object-fit: cover;">
     <h2 class="mb-0">{{ account }}</h2>
-    <span class="badge bg-secondary ms-2">{{ videos|length }}</span>
-    <span class="badge bg-primary ms-2">{{ audios|length }}</span>
 </div>
 <div class="row">
     <div class="col-md-8">
@@ -23,10 +21,9 @@
                         <!-- Кликабельное название видео -->
                         <h5 class="text-start mb-0">
                             <a href="{{ url_for('play_video', account_name=account, video_name=video.name) }}" class="text-dark text-decoration-none">
-                                {{ video.name | replace('.mp3', '') | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}
+                                {{ video.name | replace('.mp4', '') | replace('.avi', '') | replace('.mkv', '') }}
                             </a>
                         </h5>
-                        <!-- Кнопка избранного удалена -->
                     </div>
                     <div class="d-flex align-items-center text-muted mt-1">
                         <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
@@ -47,10 +44,11 @@
                     <i class="fas fa-play-circle"></i>
                 </button>
                 <div class="audio-title text-truncate me-3">{{ audio.name | replace('.mp3', '') | replace('.wav', '') | replace('.ogg', '') }}</div>
-                <a href="{{ url_for('read_account', account_name=account) }}" class="d-flex align-items-center text-muted">
+                <a href="{{ url_for('read_account', account_name=account) }}" class="d-flex align-items-center text-muted me-3">
                     <img src="{{ logo_url }}" alt="{{ account }}" class="rounded-circle me-2" style="width: 20px; height: 20px; object-fit: cover;">
                     <span>{{ account }}</span>
                 </a>
+                <!-- Кнопка добавления в избранное для аудио удалена -->
             </div>
             {% endfor %}
         </div>

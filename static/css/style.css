@@ -1,5 +1,21 @@
+/* Переменные CSS для удобной настройки темы */
+:root {
+    --primary-color: #dc3545;
+    --secondary-color: #6c757d;
+    --font-family: 'Roboto', sans-serif;
+    --light-color: #f8f9fa;
+    --dark-color: #343a40;
+    --text-color: #212529;
+    --badge-secondary: #6c757d;
+    --badge-primary: #0d6efd;
+    --favorite-active-color: #ffc107;
+    --favorite-inactive-color: #d51c1c;
+}
+
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
+    background-color: var(--light-color);
+    color: var(--text-color);
 }
 
 h1, h2, h3, h5 {
@@ -9,6 +25,7 @@ h1, h2, h3, h5 {
 .navbar {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+    background-color: var(--primary-color) !important;
 }
 
 .navbar-brand img {
@@ -56,12 +73,12 @@ h5.mt-2 {
 /* Стили для кнопки избранного */
 .favorite-btn {
     border-radius: 5px;
-    background: #d51c1c;
+    background: var(--favorite-inactive-color);
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    color: #ffffff; /* Белый цвет иконки */
-    transition: color 0.3s;
+    color: #ffffff;
+    transition: background 0.3s, color 0.3s;
 }
 
 .favorite-btn .fas.fa-star {
@@ -78,82 +95,79 @@ h5.mt-2 {
     position: fixed;
     bottom: 0;
     width: 100%;
-    /* background-color: #f8f9fa; */ /* Убрано по вашему требованию */
-    /* border-top: 1px solid #ccc; */ /* Убрано по вашему требованию */
-    z-index: 1050; /* Повышенный z-index для предотвращения перекрытия */
-    display: none; /* Скрыт по умолчанию */
+    z-index: 1050;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 10px 0;
 }
 
 .audio-player {
-    width: 100%; /* Растягиваем на всю ширину экрана */
-    /* max-width: 1200px; */ /* Убрано по вашему требованию */
-    background-color: #dc3545; /* Красный фон */
-    color: #ffffff; /* Белый текст */
+    width: 100%;
+    background-color: var(--primary-color);
+    color: #ffffff;
     padding: 10px 20px;
-    border-radius: 0; /* Без закруглений */
+    border-radius: 0;
     box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Выравнивание по левому краю */
+    align-items: flex-start;
 }
 
 /* Название трека */
 .audio-player #audio-title {
-    font-weight: normal; /* Менее жирный */
-    text-align: left; /* Выравнивание по левому краю */
+    font-weight: normal;
+    text-align: left;
     width: 100%;
     margin-bottom: 10px;
     font-size: 1rem;
-    color: #ffffff; /* Белый цвет */
+    color: #ffffff;
 }
 
 /* Plyr Audio Element */
 .audio-player audio {
     width: 100%;
-    height: 40px; /* Уменьшенная высота Plyr */
+    height: 40px;
     margin-bottom: 10px;
-    background-color: #dc3545; /* Красный фон для аудио элемента */
-    color: #ffffff; /* Белый цвет элементов управления */
+    background-color: var(--primary-color);
+    color: #ffffff;
 }
 
 /* Настройка внутренних контролов Plyr */
 .audio-player .plyr__controls {
-    width: calc(100% - 40px); /* Растягиваем с отступами по 20px с каждой стороны */
+    width: calc(100% - 40px);
     margin: 0 20px;
 }
 
 /* Изменение цвета элементов управления Plyr */
 .audio-player .plyr__controls button,
 .audio-player .plyr__controls input[type="range"] {
-    color: #ffffff; /* Белый цвет иконок */
+    color: #ffffff;
 }
 
 /* Изменение цвета фона прогресс-бара */
 .audio-player .plyr__progress__bar {
-    background-color: #ffffff; /* Белый цвет прогресс-бара */
+    background-color: #ffffff;
 }
 
 .audio-player .plyr__volume--display {
-    color: #ffffff; /* Белый цвет для отображения громкости */
+    color: #ffffff;
 }
 
 /* Изменение цвета текста в Plyr */
 .plyr__controls__time--current,
 .plyr__controls__time--duration {
-    color: #ffffff; /* Белый цвет текста времени */
+    color: #ffffff;
 }
 
 /* Стилизация активного трека */
 .audio-item.active {
-    background-color: #e9ecef;
+    background-color: var(--light-color);
 }
 
 /* Стилизация списка аудио */
 .audio-list {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 10px;
     border-radius: 10px;
 }
@@ -165,22 +179,19 @@ h5.mt-2 {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    height: 50px; /* Обеспечивает одинаковую высоту */
+    height: 50px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .audio-item .play-audio-btn {
     flex-shrink: 0;
     margin-right: 15px;
     font-size: 1.5rem;
-    color: #e32929; /* Белый цвет иконки для соответствия теме */
+    color: var(--primary-color);
     background: none;
     border: none;
     cursor: pointer;
     transition: color 0.3s;
-}
-
-.audio-item .play-audio-btn:hover {
-    color: #ff0707; /* Светло-золотой при наведении */
 }
 
 .audio-item .audio-title {
@@ -197,7 +208,7 @@ h5.mt-2 {
     display: flex;
     align-items: center;
     text-decoration: none;
-    color: #6c757d;
+    color: var(--secondary-color);
 }
 
 .audio-item a img {
@@ -213,5 +224,49 @@ h5.mt-2 {
 
 /* Отступ для контента, чтобы не перекрывался аудиоплеером */
 .content {
-    padding-bottom: 150px; /* Увеличен для новой высоты плеера */
+    padding-bottom: 150px;
+}
+
+/* Медиа-запросы для мобильных устройств */
+@media (max-width: 768px) {
+    .form-control {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .navbar-brand span {
+        font-size: 1.2rem;
+    }
+
+    .audio-player {
+        padding: 10px;
+    }
+
+    .audio-player #audio-title {
+        font-size: 0.9rem;
+    }
+
+    .audio-player audio {
+        height: 35px;
+    }
+
+    .favorite-btn {
+        font-size: 0.9rem;
+        padding: 5px 10px;
+    }
+
+    .audio-item {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+    }
+
+    .audio-item .audio-title {
+        margin-right: 0;
+        margin-bottom: 5px;
+    }
+
+    .audio-item a {
+        margin-right: 0;
+    }
 }
